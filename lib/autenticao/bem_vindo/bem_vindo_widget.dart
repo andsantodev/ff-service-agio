@@ -1,8 +1,10 @@
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'bem_vindo_model.dart';
 export 'bem_vindo_model.dart';
 
@@ -16,10 +18,13 @@ class BemVindoWidget extends StatefulWidget {
   State<BemVindoWidget> createState() => _BemVindoWidgetState();
 }
 
-class _BemVindoWidgetState extends State<BemVindoWidget> {
+class _BemVindoWidgetState extends State<BemVindoWidget>
+    with TickerProviderStateMixin {
   late BemVindoModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
@@ -40,6 +45,21 @@ class _BemVindoWidgetState extends State<BemVindoWidget> {
           ),
         },
       );
+    });
+
+    animationsMap.addAll({
+      'richTextOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeIn,
+            delay: 0.0.ms,
+            duration: 1500.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+        ],
+      ),
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -107,7 +127,8 @@ class _BemVindoWidgetState extends State<BemVindoWidget> {
                             fontWeight: FontWeight.w900,
                           ),
                     ),
-                  ),
+                  ).animateOnPageLoad(
+                      animationsMap['richTextOnPageLoadAnimation']!),
                 ],
               ),
             ),

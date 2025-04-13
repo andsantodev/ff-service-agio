@@ -394,6 +394,38 @@ class _PrestadoresDetalhesWidgetState extends State<PrestadoresDetalhesWidget> {
                                           ),
                                         ),
                                       );
+                                    } else if (widget.status ==
+                                        'INDISPONIVEL') {
+                                      return FFButtonWidget(
+                                        onPressed: () {
+                                          print('Button pressed ...');
+                                        },
+                                        text: 'INDISPONÍVEL',
+                                        options: FFButtonOptions(
+                                          width: double.infinity,
+                                          height: 64.0,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 0.0, 16.0, 0.0),
+                                          iconPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color: Colors.white,
+                                                    fontSize: 24.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
+                                          elevation: 0.0,
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                      );
                                     } else {
                                       return FFButtonWidget(
                                         onPressed: () async {
