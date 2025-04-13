@@ -1,7 +1,9 @@
 # ServiceAgio
 
-A new Flutter project.
+Mini aplicação mobile simulando um app de agendamento de serviços, com autenticação e listagem de dados conectados ao Supabase.
 
-## Getting Started
+<img src="https://github.com/user-attachments/assets/c6e6d635-c4d2-4d7b-99ba-8acd63210ee9" width="400">
 
-FlutterFlow projects are built to run on the Flutter _stable_ release.
+## Link para visualização
+
+https://serviceagio.flutterflow.app/
