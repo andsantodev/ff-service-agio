@@ -134,10 +134,12 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                             child:
                                 FutureBuilder<List<ServiceAgioViewBookingsRow>>(
                               future: ServiceAgioViewBookingsTable().queryRows(
-                                queryFn: (q) => q.eqOrNull(
-                                  'cliente_id',
-                                  currentUserUid,
-                                ),
+                                queryFn: (q) => q
+                                    .eqOrNull(
+                                      'cliente_id',
+                                      currentUserUid,
+                                    )
+                                    .order('hora'),
                               ),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
@@ -166,7 +168,7 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                           .isNotEmpty) {
                                         return Builder(
                                           builder: (context) {
-                                            final listaPrestadores =
+                                            final listaBookings =
                                                 containerServiceAgioViewBookingsRowList
                                                     .toList();
 
@@ -178,15 +180,14 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                 90.0,
                                               ),
                                               scrollDirection: Axis.vertical,
-                                              itemCount:
-                                                  listaPrestadores.length,
+                                              itemCount: listaBookings.length,
                                               separatorBuilder: (_, __) =>
                                                   SizedBox(height: 16.0),
                                               itemBuilder: (context,
-                                                  listaPrestadoresIndex) {
-                                                final listaPrestadoresItem =
-                                                    listaPrestadores[
-                                                        listaPrestadoresIndex];
+                                                  listaBookingsIndex) {
+                                                final listaBookingsItem =
+                                                    listaBookings[
+                                                        listaBookingsIndex];
                                                 return InkWell(
                                                   splashColor:
                                                       Colors.transparent,
@@ -202,40 +203,40 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                           .routeName,
                                                       queryParameters: {
                                                         'id': serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .prestadorId,
                                                           ParamType.int,
                                                         ),
                                                         'nome': serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .nome,
                                                           ParamType.String,
                                                         ),
                                                         'categoria':
                                                             serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .categoria,
                                                           ParamType.String,
                                                         ),
                                                         'nota': serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .nota,
                                                           ParamType.double,
                                                         ),
                                                         'status':
                                                             serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .status,
                                                           ParamType.String,
                                                         ),
                                                         'foto': serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .foto,
                                                           ParamType.String,
                                                         ),
                                                         'descricao':
                                                             serializeParam(
-                                                          listaPrestadoresItem
+                                                          listaBookingsItem
                                                               .descricao,
                                                           ParamType.String,
                                                         ),
@@ -295,7 +296,7 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                   ),
                                                                   child: Image
                                                                       .network(
-                                                                    listaPrestadoresItem
+                                                                    listaBookingsItem
                                                                         .foto!,
                                                                     fit: BoxFit
                                                                         .cover,
@@ -333,7 +334,7 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                       Text(
                                                                         valueOrDefault<
                                                                             String>(
-                                                                          listaPrestadoresItem
+                                                                          listaBookingsItem
                                                                               .nome,
                                                                           '[nome]',
                                                                         ),
@@ -349,7 +350,7 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                       Text(
                                                                         valueOrDefault<
                                                                             String>(
-                                                                          listaPrestadoresItem
+                                                                          listaBookingsItem
                                                                               .categoria,
                                                                           '[profissao]',
                                                                         ),
@@ -383,12 +384,12 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                           child:
                                                                               Text(
                                                                             valueOrDefault<String>(
-                                                                              listaPrestadoresItem.status,
+                                                                              listaBookingsItem.status == 'PENDENTE' ? 'Pendente' : '',
                                                                               '[status]',
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                   fontFamily: 'Inter',
-                                                                                  color: listaPrestadoresItem.status == 'DISPONIVEL' ? FlutterFlowTheme.of(context).secondaryBackground : FlutterFlowTheme.of(context).primaryText,
+                                                                                  color: listaBookingsItem.status == 'DISPONIVEL' ? FlutterFlowTheme.of(context).secondaryBackground : FlutterFlowTheme.of(context).primaryText,
                                                                                   fontSize: 12.0,
                                                                                   letterSpacing: 0.0,
                                                                                 ),
@@ -416,10 +417,10 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                 model: _model
                                                                     .ratingBarModels
                                                                     .getModel(
-                                                                  listaPrestadoresItem
+                                                                  listaBookingsItem
                                                                       .prestadorId!
                                                                       .toString(),
-                                                                  listaPrestadoresIndex,
+                                                                  listaBookingsIndex,
                                                                 ),
                                                                 updateCallback: () =>
                                                                     safeSetState(
@@ -427,17 +428,17 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                 child:
                                                                     RatingBarWidget(
                                                                   key: Key(
-                                                                    'Keyo56_${listaPrestadoresItem.prestadorId!.toString()}',
+                                                                    'Keyo56_${listaBookingsItem.prestadorId!.toString()}',
                                                                   ),
                                                                   nota:
-                                                                      listaPrestadoresItem
+                                                                      listaBookingsItem
                                                                           .nota!,
                                                                 ),
                                                               ),
                                                               Text(
                                                                 valueOrDefault<
                                                                     String>(
-                                                                  listaPrestadoresItem
+                                                                  listaBookingsItem
                                                                       .nota
                                                                       ?.toString(),
                                                                   '[4.5]',
@@ -494,27 +495,21 @@ class _AgendadosWidgetState extends State<AgendadosWidget> {
                                                                     ),
                                                               ),
                                                               Text(
-                                                                '${valueOrDefault<String>(
-                                                                  dateTimeFormat(
-                                                                    "dd/MM",
-                                                                    listaPrestadoresItem
-                                                                        .dataField,
-                                                                    locale: FFLocalizations.of(
-                                                                            context)
-                                                                        .languageCode,
-                                                                  ),
-                                                                  '[data]',
-                                                                )} às ${valueOrDefault<String>(
-                                                                  dateTimeFormat(
-                                                                    "Hm",
-                                                                    listaPrestadoresItem
-                                                                        .hora
-                                                                        ?.time,
-                                                                    locale: FFLocalizations.of(
-                                                                            context)
-                                                                        .languageCode,
-                                                                  ),
-                                                                  '[hora]',
+                                                                '${dateTimeFormat(
+                                                                  "dd/MM",
+                                                                  listaBookingsItem
+                                                                      .dataField,
+                                                                  locale: FFLocalizations.of(
+                                                                          context)
+                                                                      .languageCode,
+                                                                )} às ${dateTimeFormat(
+                                                                  "Hm",
+                                                                  listaBookingsItem
+                                                                      .hora
+                                                                      ?.time,
+                                                                  locale: FFLocalizations.of(
+                                                                          context)
+                                                                      .languageCode,
                                                                 )}h',
                                                                 maxLines: 2,
                                                                 style: FlutterFlowTheme.of(
